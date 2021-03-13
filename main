@@ -5,7 +5,7 @@ import statistics
 wait_times = []
 
 
-class Theater(object):
+class Theater(object):#Aqui se define el enviroment
     def __init__(self, env, num_cashiers, num_servers, num_ushers):
         self.env = env
         self.cashier = simpy.Resource(env, num_cashiers)
@@ -22,7 +22,7 @@ class Theater(object):
         yield self.env.timeout(random.randint(1, 5))
 
 
-def go_to_movies(env, moviegoer, theater):
+def go_to_movies(env, moviegoer, theater): #aqui es la funcion de que un usuario llego al cine
     
     arrival_time = env.now
 
@@ -43,7 +43,7 @@ def go_to_movies(env, moviegoer, theater):
     wait_times.append(env.now - arrival_time)
 
 
-def run_theater(env, num_cashiers, num_servers, num_ushers):
+def run_theater(env, num_cashiers, num_servers, num_ushers): #Aqui es ya el cine en funcionamiento
     theater = Theater(env, num_cashiers, num_servers, num_ushers)
 
     for moviegoer in range(3):
@@ -55,14 +55,14 @@ def run_theater(env, num_cashiers, num_servers, num_ushers):
         env.process(go_to_movies(env, moviegoer, theater))
 
 
-def get_average_wait_time(wait_times):
+def get_average_wait_time(wait_times): #para medir el timepoq ue se tarda porr cliente
     average_wait = statistics.mean(wait_times)
     minutes, frac_minutes = divmod(average_wait, 1)
     seconds = frac_minutes * 60
     return round(minutes), round(seconds)
 
 
-def get_user_input():
+def get_user_input(): #para pedirle al usuario los parametors
     num_cashiers = input("Input # of cashiers working: ")
     num_servers = input("Input # of servers working: ")
     num_ushers = input("Input # of ushers working: ")
@@ -78,7 +78,7 @@ def get_user_input():
     return params
 
 
-def main():
+def main(): #el main
     random.seed(42)
     num_cashiers, num_servers, num_ushers = get_user_input()
     
